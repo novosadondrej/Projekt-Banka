@@ -1,3 +1,5 @@
 # Projekt-Banka
-Simulace banky není ještě plně hotová(22.10.2020), větší část už je funkční.
 Banku tvořili: Novosád Ondřej, Tomáš Kukol 
+
+Naše úpravy: r - přičte nebo odečte úrok, který je daný v kódu.
+Úvěrový účet může jít do plusu. Pokud je v plusu tak mu to neodečítá žádný peníze za úrok.
