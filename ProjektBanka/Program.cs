@@ -159,7 +159,6 @@ namespace BankaV2
                     if (uspech)
                     {
                         ucet.vyber(number);
-                        Console.WriteLine("Úspěšně jste vybral : {0} Kč", number);
                         Console.WriteLine("Jméno účtu {0} - Zůstatek účtu : {1} Kč", ucet.jmeno(), ucet.zustatek());
                         ulozUcty();
                         Console.WriteLine("Zmáčknutím ENTERu se vrátíte do Lobby");
@@ -329,6 +328,7 @@ c - Úvěrový");
                             aktivni = vsechnyUcty[radek - 1];
                             Console.WriteLine(aktivni);
                             vkladNeboVyber(aktivni);
+                            pokracovat = false;
                         }
                         else if (cisloRadku == "m")
                         {
