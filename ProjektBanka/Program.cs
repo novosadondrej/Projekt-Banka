@@ -250,7 +250,8 @@ namespace BankaV2
                 //Lobby
                 Console.WriteLine(@"q - Založit nový účet
 w - vybrat nebo vložit peníze na stávající účet
-e - posun v čase( měsíc )");
+e - vymazat stávající účet
+r - posun v čase( měsíc )");
                 string rl = Console.ReadLine();
 
                 //zacatek Vyberu "Co chces delat?"
@@ -309,14 +310,17 @@ c - Úvěrový");
                     nactiUcty();
 
                     aktivni = null;
-                    while (aktivni == null)
+                    bool pokracovat = true;
+                    while (pokracovat == true)
                     {
                         var counter = 1;
                         foreach (var item in vsechnyUcty)
                         {
                             Console.WriteLine(counter++ + ". " + item);
                         }
+                        Console.WriteLine("");
                         Console.WriteLine("Jaký si chcete vybrat řádek?");
+                        Console.WriteLine("Pro vrácení do lobby zmáčkněte m");
                         string cisloRadku = Console.ReadLine();
                         int radek;
                         var uspech = int.TryParse(cisloRadku, out radek);
@@ -324,8 +328,11 @@ c - Úvěrový");
                         {
                             aktivni = vsechnyUcty[radek - 1];
                             Console.WriteLine(aktivni);
-                            Console.ReadLine();
                             vkladNeboVyber(aktivni);
+                        }
+                        else if (cisloRadku == "m")
+                        {
+                            pokracovat = false;
                         }
                         else
                         {
@@ -337,7 +344,51 @@ c - Úvěrový");
                 }
                 else if (rl == "e")
                 {
+                    Console.Clear();
+                    nactiUcty();
 
+                    aktivni = null;
+                    bool pokracovat = true;
+                    while (pokracovat == true)
+                    {
+                        var counter = 1;
+                        foreach (var item in vsechnyUcty)
+                        {
+                            Console.WriteLine(counter++ + ". " + item);
+                        }
+                        Console.WriteLine("");
+                        Console.WriteLine("Jaký si chcete vybrat řádek?");
+                        Console.WriteLine("Pro vrácení do lobby zmáčkněte m");
+                        string cisloRadku = Console.ReadLine();
+                        int radek;
+                        var uspech = int.TryParse(cisloRadku, out radek);
+                        if (uspech && radek >= 1 && radek < counter)
+                        {
+                            aktivni = vsechnyUcty[radek - 1];
+                            Console.WriteLine(aktivni);
+                            vsechnyUcty.RemoveAt(radek - 1);
+                            ulozUcty();
+                            Console.WriteLine("Úspěšně jste odstranil účet");
+                            Console.WriteLine("Zmáčknutím ENTERu se vrátíte do lobby");
+                            Console.ReadLine();
+                            pokracovat = false;
+                           
+                        }
+                        else if (cisloRadku == "m")
+                        {
+                            pokracovat = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Dany ucet nebyl nacten!");
+                            Console.ReadLine();
+                        }
+                        Console.Clear();
+                    }
+                }
+                else if (rl == "r")
+                {
+                    posun();
                 }
                 else
                 {
@@ -347,6 +398,15 @@ c - Úvěrový");
                 }
                 Console.Clear();
 
+            }
+            void posun()
+            {
+                nactiUcty();
+                for (int i = 0; i < vsechnyUcty.Count; i++)
+                {
+                    vsechnyUcty[i].mesicni();
+                    ulozUcty();
+                }
             }
 
         }
